@@ -116,12 +116,14 @@ var gameMTPunchOut = {
         };
     },
     characterUppercut : function (yourCharacter, theDefender){
-        var tempAttack = Math.trunc(this.characters[yourCharacter].newAttack + (this.characters[yourCharacter].newAttack / 2));
-        this.characters[theDefender].health = this.characters[theDefender].health - tempAttack
-        this.characters[yourCharacter].newAttack = tempAttack;
+        //temporarily store original Attack value
+        var tempAttack = this.characters[yourCharacter].newAttack;
+        this.characters[yourCharacter].newAttack = Math.trunc(this.characters[yourCharacter].newAttack + (this.characters[yourCharacter].newAttack / 2));
+        this.characters[theDefender].health = this.characters[theDefender].health - this.characters[yourCharacter].newAttack        
         gameMTPunchOut.counterAttack(yourCharacter,theDefender);
         gameMTPunchOut.updateHealth(yourCharacter,theDefender);
         //reset's newAttack Power after using and displaying upperCut hit
+        this.characters[yourCharacter].newAttack = tempAttack;
         this.characters[yourCharacter].newAttack = Math.trunc(this.characters[yourCharacter].newAttack / 2)
         if(gameMTPunchOut.characters[yourCharacter].newAttack < 20){
             $("#uppercut").hide();
@@ -178,21 +180,6 @@ var gameMTPunchOut = {
         this.characters[character].enemy = false;
         this.characters[character].defender = false;
         this.characters[character].defeated = false;
-    },
-    resetGame : function(){
-        this.resetCharacter("donFlamenco");
-        this.resetCharacter("glassJoe");
-        this.resetCharacter("mikeTyson");
-        this.resetCharacter("pistonHonda");
-        this.resetCharacter("superMachoMan");
-        this.resetCharacter("vonKaiser");
-        this.characterSelected = false;
-        this.characterName = "";
-        this.enemiesCount = 3;
-        this.enemyCard = 0;
-        this.defenderSelected = false;  
-        this.defenderName = "";
-        this.enemiesSelected = false;
     },
     moveCard : function(character,location){
         $("#"+ location).html(character);
