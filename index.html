@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MTPO</title>
+    <link rel="stylesheet" href="assets/css/reset.css" >
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <header class="mb-3">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-10 offset-1">
+                        <span class="navbar-brand mb-0 h1">Mike Tyson's Punch Out</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-10 offset-lg-1 border" id="playerCards">
+                    <div class="row">
+                        <div class="col-12" id="setupMessages">
+                            <h2>Select Your Character</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card playerCard" id="donFlamenco">
+                                <div class="card-header"></div>
+                                <img class="card-img-bottom" src="assets/images/minDonFlamenco.png" alt="Don Flamenco">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card playerCard" id="glassJoe">
+                                <div class="card-header"></div>
+                                <img class="card-img-bottom" src="assets/images/minGlassJoe.png" alt="Glass Joe">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card playerCard" id="pistonHonda">
+                                <div class="card-header"></div>
+                                <img class="card-img-bottom" src="assets/images/minPistonHonda.png" alt="Piston Honda">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card playerCard" id="superMachoMan">
+                                <div class="card-header"></div>
+                                <img class="card-img-bottom" src="assets/images/minSuperMachoMan.png" alt="Super Macho Man">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card playerCard" id="vonKaiser">
+                                <div class="card-header"></div>
+                                <img class="card-img-bottom" src="assets/images/minVonKaiser.png" alt="Von Kaiser">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card playerCard" id="mikeTyson">
+                                <div class="card-header"></div>
+                                <img class="card-img-bottom" src="assets/images/minMikeTyson.png" alt="Mike Tyson">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-10 offset-lg-1" id="actualGame">
+                    <div class="row m-2">
+                        <div class="col-12 m-1 border">
+                            <div id="CharacterMessage" class="m-1 p-1">
+                                <h2>Your Character:</h2>
+                            </div>
+                            <div class="col-4 offset-4 my-2" id="yourCharacter">
+                                <!-- your Character Card will be Moved Here-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col-4 offset-1 border">
+                            <div id="AttackOptions" class="m-1 p-1">
+                                    <h3>Attack Options:</h3>
+                            </div>
+                            <div id="AttackButtons" class="m-1">
+                                <button type="button" class="btn btn-primary" id="jab">Jab</button>
+                                <button type="button" class="btn btn-secondary" id="uppercut">Uppercut</button>
+                            </div>
+                        </div>
+                        <div class="col-4 offset-1 border">
+                            <div id="AttackResults" class="m-1 p-1">
+                                    <h3>Attack Results:</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-2">
+                        <div class="col-12 border m-1">
+                            <div id="EnemyMessage" class="m-1 p-1">
+                                <!-- Enemy messages are injected here -->
+                            </div>
+                            <div class="row m-2">
+                                <div class="col-4 enemyCard" id="enemy3">
+                                    <!-- The First Selected Enemy Goes here -->
+                                </div>
+                                <div class="col-4 enemyCard" id="enemy2">
+                                    <!-- The Second Selected Enemy Goes here -->
+                                </div>
+                                <div class="col-4 enemyCard" id="enemy1">
+                                    <!-- The Third Selected Enemy Goes here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="assets/javascript/mikeTysonPunchOut.js"></script>
+</body>
+</html>
