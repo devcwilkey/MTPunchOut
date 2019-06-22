@@ -23,6 +23,33 @@
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-12 mt-3 mb-3 border">
+                    <h4 class="mt-2 mb-0">Instructions:</h4>
+                    <hr class="p-0 mt-1 mb-1">
+                    <p>Welcome to "Mike Tyson's Punch Out";  Momma said Knock You Out!?!</p>
+                    <p>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#instructions" aria-expanded="false" aria-controls="instructions">
+                            Read the Instructions.
+                        </button>
+                    </p>
+                    <div class="collapse" id="instructions">
+                        <div class="m-3 p-2 card card-body">
+                            <b>Instructions:</b>
+                            <ul>
+                                <li>At the start of each "new" game you will select a "character" and "three enemies"</li>
+                                <li>The first "Player" you select will be "Your Character"; subsequent players will be "The Enemies"</li>
+                                <li>You will then select a "Defender" from "The Enemies"</li>
+                                <li>Once all characters are selected; the "Attack Options" will become available</li>
+                                <li>Fight Mechanics: each "Jab" w ill increase your attack power by the original attack power</li>
+                                <li>Once you have banked 20 attack power or more you can perform an "Uppercut"</li>
+                                <li>Uppercut's are equal to (Attack Power + (Attack Power / 2) but reduce your Attack Power in Half; use wisely</li>
+                                <li>All character's will have Health set to 100; but the Attack and Counter Attacks are randomly calculated when selected</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-12 col-lg-10 offset-lg-1 border" id="playerCards">
                     <div class="row">
                         <div class="col-12" id="setupMessages">
@@ -32,86 +59,92 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="card playerCard" id="donFlamenco">
-                                <div class="card-header"></div>
-                                <img class="card-img-bottom" src="assets/images/minDonFlamenco.png" alt="Don Flamenco">
+                                <div class="card-header" id="donFlamencoHealthMsg"></div>
+                                <img class="card-img-bottom w-75 m-auto" src="assets/images/minDonFlamenco.png" alt="Don Flamenco">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="card playerCard" id="glassJoe">
-                                <div class="card-header"></div>
-                                <img class="card-img-bottom" src="assets/images/minGlassJoe.png" alt="Glass Joe">
+                                <div class="card-header" id="glassJoeHealthMsg"></div>
+                                <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minGlassJoe.png" alt="Glass Joe">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="card playerCard" id="pistonHonda">
-                                <div class="card-header"></div>
-                                <img class="card-img-bottom" src="assets/images/minPistonHonda.png" alt="Piston Honda">
+                                <div class="card-header" id="pistonHondaHealthMsg"></div>
+                                <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minPistonHonda.png" alt="Piston Honda">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="card playerCard" id="superMachoMan">
-                                <div class="card-header"></div>
-                                <img class="card-img-bottom" src="assets/images/minSuperMachoMan.png" alt="Super Macho Man">
+                                <div class="card-header" id="superMachoManHealthMsg"></div>
+                                <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minSuperMachoMan.png" alt="Super Macho Man">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="card playerCard" id="vonKaiser">
-                                <div class="card-header"></div>
-                                <img class="card-img-bottom" src="assets/images/minVonKaiser.png" alt="Von Kaiser">
+                                <div class="card-header" id="vonKaiserHealthMsg"></div>
+                                <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minVonKaiser.png" alt="Von Kaiser">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="card playerCard" id="mikeTyson">
-                                <div class="card-header"></div>
-                                <img class="card-img-bottom" src="assets/images/minMikeTyson.png" alt="Mike Tyson">
+                                <div class="card-header" id="mikeTysonHealthMsg"></div>
+                                <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minMikeTyson.png" alt="Mike Tyson">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-10 offset-lg-1" id="actualGame">
                     <div class="row m-2">
-                        <div class="col-12 m-1 border">
+                        <div class="col-12 m-1 h-50 border">
                             <div id="CharacterMessage" class="m-1 p-1">
-                                <h2>Your Character:</h2>
+                                <h4>Your Character:</h4>
                             </div>
-                            <div class="col-4 offset-4 my-2" id="yourCharacter">
-                                <!-- your Character Card will be Moved Here-->
+                            <div class="row">
+                                <div class="col-4 offset-2 my-2" id="yourCharacter">
+                                    <!-- your Character Card will be Moved Here-->
+                                </div>
+                                <div class="col-4 offset-1">
+                                    <div class="row">
+                                        <div class="col-12 border p-1">
+                                            <div id="AttackOptions" class="m-1">
+                                                    <h5>Attack Options:</h5>
+                                            </div>
+                                            <div id="AttackButtons" class="m-1">
+                                                <button type="button" class="btn btn-primary" id="jab">Jab</button>
+                                                <button type="button" class="btn btn-secondary" id="uppercut">Uppercut</button>
+                                                <button type="reset" class="btn btn-secondary" id="reset">Reset</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 border">
+                                            <div id="AttackResults" class="m-1">
+                                                    <h5>Attack Results:</h5>
+                                            </div>
+                                            <div id="AttackResultMsg" class="m-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row m-2">
-                        <div class="col-4 offset-1 border">
-                            <div id="AttackOptions" class="m-1 p-1">
-                                    <h3>Attack Options:</h3>
-                            </div>
-                            <div id="AttackButtons" class="m-1">
-                                <button type="button" class="btn btn-primary" id="jab">Jab</button>
-                                <button type="button" class="btn btn-secondary" id="uppercut">Uppercut</button>
-                            </div>
-                        </div>
-                        <div class="col-4 offset-1 border">
-                            <div id="AttackResults" class="m-1 p-1">
-                                    <h3>Attack Results:</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row m-2">
-                        <div class="col-12 border m-1">
+                        <div class="col-12 border m-1" id="theEnemies">
                             <div id="EnemyMessage" class="m-1 p-1">
                                 <!-- Enemy messages are injected here -->
                             </div>
                             <div class="row m-2">
-                                <div class="col-4 enemyCard" id="enemy3">
+                                <div class="col-6 col-lg-4 enemyCard" id="enemy3">
                                     <!-- The First Selected Enemy Goes here -->
                                 </div>
-                                <div class="col-4 enemyCard" id="enemy2">
+                                <div class="col-6 col-lg-4 enemyCard" id="enemy2">
                                     <!-- The Second Selected Enemy Goes here -->
                                 </div>
-                                <div class="col-4 enemyCard" id="enemy1">
+                                <div class="col-6 col-lg-4 enemyCard" id="enemy1">
                                     <!-- The Third Selected Enemy Goes here -->
                                 </div>
                             </div>
