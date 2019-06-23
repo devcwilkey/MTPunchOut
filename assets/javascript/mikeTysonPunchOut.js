@@ -80,8 +80,9 @@ var gameMTPunchOut = {
         this.setCharacterStats(character.id);
         this.characters[character.id].yourCharacter = true;
         this.characterSelected = true;
-        $("#yourCharacter").attr("class","col-5 offset-1 col-lg-4 col-offset-lg-2 my-2 h-50")
-        this.addHealthBar(character.id);
+        $("#"+this.characterName).attr('class',"card-img-bottom w-100 center-block m-auto");
+        $("#yourCharacter").attr("class","col-5 offset-1 col-lg-4 col-offset-lg-2 my-2 h-100")
+        this.addCharacterHealthBar(character.id);
     },
     setEnemy : function (character) {
         this.characters[character.id].enemy = true;
@@ -100,7 +101,7 @@ var gameMTPunchOut = {
         this.defenderSelected = true;
         this.characters[defenderId].defender = true;
         this.setMicroImage();
-        this.addHealthBar("theDefender");
+        this.addDefenderHealthBar("theDefender");
         this.hideEnemies(this.enemyCard)
     },
     characterJab : function (yourCharacter, theDefender){
@@ -194,9 +195,9 @@ var gameMTPunchOut = {
             return true;
         };
     },
-    updateHealth : function(yourCharacter,theDefender){
+    updateHealth : function(yourCharacter){
         this.printMessage("Health: " + this.characters[yourCharacter].health, yourCharacter+"HealthMsg")
-        this.printMessage("Health: " + this.characters[theDefender].health, theDefender+"HealthMsg")
+        this.printMessage("Health: " + this.characters[this.defenderName].health, "theDefenderHealthMsg")
 
     },
     checkAttackBtn : function(){
@@ -244,7 +245,10 @@ var gameMTPunchOut = {
                 $("#enemy"+i).hide();
         };
     },
-    addHealthBar: function (elementId){
+    addCharacterHealthBar: function (elementId){
+        $('#'+elementId).prepend('<div class="card-header bg-success border-bottom-0 w-100" id="' + elementId + 'HealthMsg"></div>')
+    },
+    addDefenderHealthBar: function (elementId){
         $('#'+elementId).prepend('<div class="card border"><div class="card-header bg-success border-bottom-0 w-100" id="' + elementId + 'HealthMsg"></div></div>')
     },
     clearMicroImage: function(){
