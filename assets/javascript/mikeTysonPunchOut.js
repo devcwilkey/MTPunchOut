@@ -16,7 +16,8 @@ var gameMTPunchOut = {
             defender: false,
             yourCharacter: false,
             enemy: false,
-            defeated: false
+            defeated: false,
+            microImg: "assets/images/microDonFlamenco.png"
         },
         glassJoe : { 
             health : 0,
@@ -26,7 +27,8 @@ var gameMTPunchOut = {
             yourCharacter: false,
             enemy: false,
             defender: false,
-            defeated: false
+            defeated: false,
+            microImg: "assets/images/microGlassJoe.png"
         },
         mikeTyson : {
             health : 0,
@@ -36,7 +38,8 @@ var gameMTPunchOut = {
             yourCharacter: false,
             enemy: false,
             defender: false,
-            defeated: false
+            defeated: false,
+            microImg: "assets/images/micro.MikeTyson.png"
         },
         pistonHonda : {
             health : 0,
@@ -46,7 +49,8 @@ var gameMTPunchOut = {
             yourCharacter: false,
             enemy: false,
             defender: false,
-            defeated: false
+            defeated: false,
+            microImg: "assets/images/microPistonHonda.png"
         },
         superMachoMan : {
             health : 0,
@@ -56,7 +60,8 @@ var gameMTPunchOut = {
             yourCharacter: false,
             enemy: false,
             defender: false,
-            defeated: false
+            defeated: false,
+            microImg: "assets/images/microSuperMachoMan.png"
         },
         vonKaiser : {
             health : 0,
@@ -66,7 +71,8 @@ var gameMTPunchOut = {
             yourCharacter: false,
             enemy: false,
             defender: false,
-            defeated: false
+            defeated: false,
+            microImg: "assets/images/microVonKaiser.png"
         }
     }, 
     setCharacter : function (character) {
@@ -74,7 +80,8 @@ var gameMTPunchOut = {
         this.setCharacterStats(character.id);
         this.characters[character.id].yourCharacter = true;
         this.characterSelected = true;
-        $("#yourCharacter").attr("class","col-5 offset-1 col-lg-4 col-offset-lg-2 my-2 h-50");
+        $("#yourCharacter").attr("class","col-5 offset-1 col-lg-4 col-offset-lg-2 my-2 h-50")
+        this.addHealthBar(character.id);
     },
     setEnemy : function (character) {
         this.characters[character.id].enemy = true;
@@ -92,27 +99,17 @@ var gameMTPunchOut = {
         this.defenderName = defenderId;
         this.defenderSelected = true;
         this.characters[defenderId].defender = true;
-        gameMTPunchOut.hideEnemies(this.enemyCard)
-        $(fullEnemyCard).attr("class","col-6 offset-3 col-lg-4 enemyCard");
-        gameMTPunchOut.printMessage("<h3>Let's Get Ready to Rumble...</h3>","EnemyMessage");
-        $("#jab").show();
-        if(gameMTPunchOut.characters[gameMTPunchOut.characterName].newAttack > 19){
-            $("#uppercut").show();
-        }
+        this.setMicroImage();
+        this.addHealthBar("theDefender");
+        this.hideEnemies(this.enemyCard)
     },
     characterJab : function (yourCharacter, theDefender){
         this.characters[theDefender].health = this.characters[theDefender].health - this.characters[yourCharacter].newAttack;
-        gameMTPunchOut.counterAttack(yourCharacter,theDefender);
-        gameMTPunchOut.updateHealth(yourCharacter,theDefender);
-        gameMTPunchOut.doubleAttack(gameMTPunchOut.characterName);
-        if(gameMTPunchOut.characters[yourCharacter].newAttack > 19){
-            $("#uppercut").show();
-        }
-        if(!gameMTPunchOut.healthRemainingEval(yourCharacter)){
+        this.counterAttack(yourCharacter,theDefender);
+        this.updateHealth(yourCharacter,theDefender);
+        this.doubleAttack(this.characterName);
+        if(!this.healthRemainingEval(yourCharacter)){
             this.updateAttackMessage(4);
-            setTimeout(function(){
-                $("#theEnemies").hide();
-            },2000);
         };
     },
     characterUppercut : function (yourCharacter, theDefender){
@@ -120,19 +117,13 @@ var gameMTPunchOut = {
         var tempAttack = this.characters[yourCharacter].newAttack;
         this.characters[yourCharacter].newAttack = Math.trunc(this.characters[yourCharacter].newAttack + (this.characters[yourCharacter].newAttack / 2));
         this.characters[theDefender].health = this.characters[theDefender].health - this.characters[yourCharacter].newAttack        
-        gameMTPunchOut.counterAttack(yourCharacter,theDefender);
-        gameMTPunchOut.updateHealth(yourCharacter,theDefender);
+        this.counterAttack(yourCharacter,theDefender);
+        this.updateHealth(yourCharacter,theDefender);
         //reset's newAttack Power after using and displaying upperCut hit
         this.characters[yourCharacter].newAttack = tempAttack;
         this.characters[yourCharacter].newAttack = Math.trunc(this.characters[yourCharacter].newAttack / 2)
-        if(gameMTPunchOut.characters[yourCharacter].newAttack < 20){
-            $("#uppercut").hide();
-        }
-        if(!gameMTPunchOut.healthRemainingEval(yourCharacter)){
+        if(!this.healthRemainingEval(yourCharacter)){
             this.updateAttackMessage(4);
-            setTimeout(function(){
-                $("#theEnemies").hide();
-            },2000);
         };
     },
     defenderAttack: function (yourCharacter, theDefender){
@@ -142,15 +133,18 @@ var gameMTPunchOut = {
         this.characters[yourCharacter].newAttack = this.characters[yourCharacter].newAttack + this.characters[yourCharacter].attack;
     },
     counterAttack : function(yourCharacter, theDefender) {
-        if(gameMTPunchOut.healthRemainingEval(theDefender)){
+        if(this.healthRemainingEval(theDefender)){
             this.characters[yourCharacter].health = this.characters[yourCharacter].health - this.characters[theDefender].counterAttack;
             this.updateAttackMessage(1);
         } else {
             this.characters[theDefender].defeated = true;
+            if(this.enemiesCount === 3 ){
+                this.updateAttackMessage(5);
+            }
             this.updateAttackMessage(2);
             setTimeout(function(){
-                gameMTPunchOut.showEnemies()
-            },2000);
+                that.gameMTPunchOut.showEnemies()
+            },1000);
         }
     },
     setCharacterStats : function(character) {
@@ -189,57 +183,77 @@ var gameMTPunchOut = {
         $("#"+ location).html(message);
     },
     fightReady : function(){
-        gameMTPunchOut.printMessage("<h5>The Enemies</h5>","EnemyMessage")
-        gameMTPunchOut.printMessage("<h5>Select a defender from \"the Enemines\" to start a fight:</h5>","CharacterMessage")
+        this.printMessage("<h5>The Enemies</h5>","EnemyMessage")
+        this.printMessage("<h5>Select a defender from \"the Enemines\" to start a fight:</h5>","CharacterMessage")
 
     },
     healthRemainingEval : function(character){
-        if(gameMTPunchOut.characters[character].health < 1){
+        if(this.characters[character].health < 1){
             return false;
         } else {
             return true;
         };
     },
     updateHealth : function(yourCharacter,theDefender){
-        gameMTPunchOut.printMessage("Health: " + gameMTPunchOut.characters[yourCharacter].health, yourCharacter+"HealthMsg")
-        gameMTPunchOut.printMessage("Health: " + gameMTPunchOut.characters[theDefender].health, theDefender+"HealthMsg")
+        this.printMessage("Health: " + this.characters[yourCharacter].health, yourCharacter+"HealthMsg")
+        this.printMessage("Health: " + this.characters[theDefender].health, theDefender+"HealthMsg")
+
     },
     checkAttackBtn : function(){
-        if(!gameMTPunchOut.healthRemainingEval(gameMTPunchOut.characterName) || !gameMTPunchOut.healthRemainingEval(gameMTPunchOut.defenderName)){
-            if(gameMTPunchOut.healthRemainingEval(gameMTPunchOut.defenderName)){
+        if(!this.healthRemainingEval(this.characterName) || !this.healthRemainingEval(this.defenderName)){
+            if(this.healthRemainingEval(this.defenderName)){
                 this.updateAttackMessage(5);
+            } else {
+                this.clearMicroImage();
+                $("#jab").hide();
+                $("#uppercut").hide();
             }
-            $("#jab").hide();
-            $("#uppercut").hide();
-        }
+        } else {
+            if($("#jab:visible").length === 0 ){
+                $("#jab").show();
+            }
+            if(this.characters[this.characterName].newAttack < 20){
+                $("#uppercut").hide();
+            } else if (this.characters[this.characterName].newAttack > 19){
+                $("#uppercut").show();
+            }
+        };
     },
     updateAttackMessage : function (eval){
         switch(eval){
             case 1:
-                gameMTPunchOut.printMessage("<p>You Attacked for: " + this.characters[gameMTPunchOut.characterName].newAttack + "</p><p> Defender Attacked for: " + this.characters[gameMTPunchOut.defenderName].counterAttack +"</p>","AttackResultMsg");
+                this.printMessage("<p>You Attacked for: " + this.characters[this.characterName].newAttack + "</p><p> Defender Attacked for: " + this.characters[this.defenderName].counterAttack +"</p>","AttackResultMsg");
                 break;
             case 2:
-                gameMTPunchOut.printMessage("<p>You Attacked for: " + this.characters[gameMTPunchOut.characterName].newAttack + "</p><p>Your opponent was defeated; Enemies will reload in a moment.</p>","AttackResultMsg");
+                this.printMessage("<p>You Attacked for: " + this.characters[this.characterName].newAttack + "</p><p>Your opponent was defeated; Enemies will reload in a moment.</p>","AttackResultMsg");
                 break;
             case 3:
-                gameMTPunchOut.printMessage("<p>Your current Attack Power: " + this.characters[gameMTPunchOut.characterName].newAttack + "</p>","AttackResultMsg");
+                this.printMessage("<p>Your current Attack Power: " + this.characters[this.characterName].newAttack + "</p>","AttackResultMsg");
                 break;
             case 4:
-                gameMTPunchOut.printMessage("<p>Valiant Effort but \"the Enemies\" have defeated you.</p><p>Better Luck Next Time</p>","AttackResultMsg");
+                this.printMessage("<p>Valiant Effort but \"the Enemies\" have defeated you.</p><p>Better Luck Next Time</p>","AttackResultMsg");
                 break;
             case 5:
-                gameMTPunchOut.printMessage("<p>Congratulations you have defeated all \"Enemies\" click the reset button to play again.</p>","AttackResultMsg");
+                this.printMessage("<p>Congratulations you have defeated all \"Enemies\" click the reset button to play again.</p>","AttackResultMsg");
                 break;
         };
     },
-    hideEnemies : function (defenderCardId){
+    hideEnemies : function (){
+        $("#theEnemies").hide();
         for(i = 1; i < 4; i++){
-            if(i !== parseInt(defenderCardId)){
                 $("#enemy"+i).hide();
-            };
         };
     },
-    showEnemies : function (){
+    addHealthBar: function (elementId){
+        $('#'+elementId).prepend('<div class="card border"><div class="card-header bg-success border-bottom-0 w-100" id="' + elementId + 'HealthMsg"></div></div>')
+    },
+    clearMicroImage: function(){
+       $("#theDefender").empty('');
+    },
+    setMicroImage: function (){
+        $("#theDefender").html('<img src="assets/images/micro'+this.defenderName+'.png" class="card-img-bottom mx-auto" alt="theDefenderImage">');
+    },
+    showEnemies: function (){
         for(i = 1; i < 4; i++){
             if(( parseInt(this.enemyCard) === i)){
                 $("#enemy"+i).empty();
@@ -249,55 +263,62 @@ var gameMTPunchOut = {
             }
         };
         this.defenderSelected = false;
-        gameMTPunchOut.fightReady();
-        gameMTPunchOut.updateAttackMessage(3);
+        $("#theEnemies").show();
+        this.fightReady();
+        this.updateAttackMessage(3);
+        return true;
     },
+    evalWin: function(){
+        
+    }
 
 };
 $(document).ready(function() {
     $("#actualGame").hide();
     $("#jab").hide();
     $("#uppercut").hide();
-    gameMTPunchOut.printMessage("<h2>Select Your Character</h2>", "setupMessages");
+    that.gameMTPunchOut.printMessage("<h2>Select Your Character</h2>", "setupMessages");
 });
 $(".playerCard").on("click", function(){
     var fullPlayerCard = this;
-    if (!gameMTPunchOut.characterSelected){
-        gameMTPunchOut.setCharacter(fullPlayerCard)
-        gameMTPunchOut.moveCard(fullPlayerCard,"yourCharacter")
-        gameMTPunchOut.printMessage("<h2>Select " + gameMTPunchOut.enemiesCount + " Opponents</h2>", "setupMessages")
-    } else if (!gameMTPunchOut.enemiesSelected && !gameMTPunchOut.characters[fullPlayerCard.id].yourCharacter && !gameMTPunchOut.characters[fullPlayerCard.id].enemy) {
-        gameMTPunchOut.moveCard(fullPlayerCard,"enemy"+gameMTPunchOut.enemiesCount)
-        gameMTPunchOut.setEnemy(fullPlayerCard)
-        gameMTPunchOut.printMessage("<h2>Select " + gameMTPunchOut.enemiesCount + " More Opponents</h2>", "setupMessages")
-        if (gameMTPunchOut.enemiesSelected && $("#actualGame:visible").length === 0 ){
+    if (!that.gameMTPunchOut.characterSelected){
+        that.gameMTPunchOut.setCharacter(fullPlayerCard)
+        that.gameMTPunchOut.moveCard(fullPlayerCard,"yourCharacter")
+        that.gameMTPunchOut.printMessage("<h2>Select " + that.gameMTPunchOut.enemiesCount + " Opponents</h2>", "setupMessages")
+    } else if (!that.gameMTPunchOut.enemiesSelected && !that.gameMTPunchOut.characters[fullPlayerCard.id].yourCharacter && !that.gameMTPunchOut.characters[fullPlayerCard.id].enemy) {
+        that.gameMTPunchOut.moveCard(fullPlayerCard,"enemy"+that.gameMTPunchOut.enemiesCount)
+        that.gameMTPunchOut.setEnemy(fullPlayerCard)
+        that.gameMTPunchOut.printMessage("<h2>Select " + that.gameMTPunchOut.enemiesCount + " More Opponents</h2>", "setupMessages")
+        if (that.gameMTPunchOut.enemiesSelected && $("#actualGame:visible").length === 0 ){
             $("#actualGame").show();
             $("#playerCards").hide();
-            gameMTPunchOut.fightReady()
+            that.gameMTPunchOut.fightReady()
         }
     }
+    
 });
 $(".enemyCard").on("click", function(){
     var fullEnemyCard = this;
-    if(!that.defenderSelected){
-        gameMTPunchOut.setDefender(fullEnemyCard);
-        gameMTPunchOut.printMessage("<h2>Select an Attack!</h2>", "CharacterMessage")
+    if(!that.gameMTPunchOut.defenderSelected){
+        that.gameMTPunchOut.setDefender(fullEnemyCard);
+        that.gameMTPunchOut.printMessage("<h2>Select an Attack!</h2>", "CharacterMessage")
     }
+    that.gameMTPunchOut.checkAttackBtn();
 });
 $("#jab").on("click", function(){
-    if(gameMTPunchOut.characterSelected && gameMTPunchOut.defenderSelected){
-        if(gameMTPunchOut.healthRemainingEval(gameMTPunchOut.characterName) && gameMTPunchOut.healthRemainingEval(gameMTPunchOut.defenderName)){
-                gameMTPunchOut.characterJab(gameMTPunchOut.characterName, gameMTPunchOut.defenderName);
+    if(that.gameMTPunchOut.characterSelected && that.gameMTPunchOut.defenderSelected){
+        if(that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.characterName) && that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.defenderName)){
+                that.gameMTPunchOut.characterJab(that.gameMTPunchOut.characterName, that.gameMTPunchOut.defenderName);
         };
-        gameMTPunchOut.checkAttackBtn();
+        that.gameMTPunchOut.checkAttackBtn();
     }
 });
 $("#uppercut").on("click", function(){
-    if(gameMTPunchOut.characterSelected && gameMTPunchOut.defenderSelected){
-        if(gameMTPunchOut.healthRemainingEval(gameMTPunchOut.characterName) && gameMTPunchOut.healthRemainingEval(gameMTPunchOut.defenderName)){
-            gameMTPunchOut.characterUppercut(gameMTPunchOut.characterName, gameMTPunchOut.defenderName);
+    if(that.gameMTPunchOut.characterSelected && that.gameMTPunchOut.defenderSelected){
+        if(that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.characterName) && that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.defenderName)){
+            that.gameMTPunchOut.characterUppercut(that.gameMTPunchOut.characterName, that.gameMTPunchOut.defenderName);
         };
-        gameMTPunchOut.checkAttackBtn();
+        that.gameMTPunchOut.checkAttackBtn();
     };
 });
 $("#reset").on("click", function(){

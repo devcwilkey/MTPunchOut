@@ -59,37 +59,31 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="card playerCard" id="donFlamenco">
-                                <div class="card-header" id="donFlamencoHealthMsg"></div>
                                 <img class="card-img-bottom w-75 m-auto" src="assets/images/minDonFlamenco.png" alt="Don Flamenco">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="card playerCard" id="glassJoe">
-                                <div class="card-header" id="glassJoeHealthMsg"></div>
                                 <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minGlassJoe.png" alt="Glass Joe">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="card playerCard" id="pistonHonda">
-                                <div class="card-header" id="pistonHondaHealthMsg"></div>
                                 <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minPistonHonda.png" alt="Piston Honda">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="card playerCard" id="superMachoMan">
-                                <div class="card-header" id="superMachoManHealthMsg"></div>
                                 <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minSuperMachoMan.png" alt="Super Macho Man">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="card playerCard" id="vonKaiser">
-                                <div class="card-header" id="vonKaiserHealthMsg"></div>
                                 <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minVonKaiser.png" alt="Von Kaiser">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="card playerCard" id="mikeTyson">
-                                <div class="card-header" id="mikeTysonHealthMsg"></div>
                                 <img class="card-img-bottom w-75 center-block m-auto" src="assets/images/minMikeTyson.png" alt="Mike Tyson">
                             </div>
                         </div>
@@ -117,19 +111,27 @@
                                                 <button type="reset" class="btn btn-danger p-2 m-1 float-right" id="reset">Reset</button>
                                             </div>
                                         </div>
-                                        <div class="col-12 border">
+                                        <div class="col-12 border mt-2">
                                             <div id="AttackResults" class="m-1">
                                                     <h5>Attack Results:</h5>
                                             </div>
                                             <div id="AttackResultMsg" class="m-1"></div>
+                                        </div>
+                                        <div class="col-12 border my-1">
+                                            <div id="DefenderMsg" class="m-1">
+                                                    <h5>The Defender:</h5>
+                                            </div>    
+                                            <div id="theDefender" class="m-1">
+                                                <!-- During the Fight, Insert the the Defender-->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row m-2">
-                        <div class="col-12 border m-1" id="theEnemies">
+                    <div class="row m-2" id="theEnemies">
+                        <div class="col-12 border m-1">
                             <div id="EnemyMessage" class="m-1 p-1">
                                 <!-- Enemy messages are injected here -->
                             </div>
