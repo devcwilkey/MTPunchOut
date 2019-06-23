@@ -164,6 +164,7 @@ var gameMTPunchOut = {
                 this.enemiesCount++
             } else {
                 this.characters[character].counterAttack = Math.trunc(Math.random() * (15 - 10 ) + 10);
+                this.enemiesCount++
             }
         }
         this.characters[character].yourCharacter = false;
@@ -205,6 +206,9 @@ var gameMTPunchOut = {
     },
     checkAttackBtn : function(){
         if(!gameMTPunchOut.healthRemainingEval(gameMTPunchOut.characterName) || !gameMTPunchOut.healthRemainingEval(gameMTPunchOut.defenderName)){
+            if(gameMTPunchOut.healthRemainingEval(gameMTPunchOut.defenderName)){
+                this.updateAttackMessage(5);
+            }
             $("#jab").hide();
             $("#uppercut").hide();
         }
@@ -222,6 +226,9 @@ var gameMTPunchOut = {
                 break;
             case 4:
                 gameMTPunchOut.printMessage("<p>Valiant Effort but \"the Enemies\" have defeated you.</p><p>Better Luck Next Time</p>","AttackResultMsg");
+                break;
+            case 5:
+                gameMTPunchOut.printMessage("<p>Congratulations you have defeated all \"Enemies\" click the reset button to play again.</p>","AttackResultMsg");
                 break;
         };
     },
