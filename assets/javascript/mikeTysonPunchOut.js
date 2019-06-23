@@ -39,7 +39,7 @@ var gameMTPunchOut = {
             enemy: false,
             defender: false,
             defeated: false,
-            microImg: "assets/images/micro.MikeTyson.png"
+            microImg: "assets/images/microMikeTyson.png"
         },
         pistonHonda : {
             health : 0,
@@ -251,7 +251,7 @@ var gameMTPunchOut = {
        $("#theDefender").empty('');
     },
     setMicroImage: function (){
-        $("#theDefender").html('<img src="assets/images/micro'+this.defenderName+'.png" class="card-img-bottom mx-auto" alt="theDefenderImage">');
+        $("#theDefender").html('<img src="' + this.characters[this.defenderName].microImg + '" class="card-img-bottom mx-auto" alt="theDefenderImage">');
     },
     showEnemies: function (){
         for(i = 1; i < 4; i++){
