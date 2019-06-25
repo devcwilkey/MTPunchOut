@@ -141,11 +141,13 @@ var gameMTPunchOut = {
             this.characters[theDefender].defeated = true;
             if(this.enemiesCount === 3 ){
                 this.updateAttackMessage(5);
-            }
+                that.gameMTPunchOut.printMessage("<h2>Congratulations you have Won!</h2>", "CharacterMessage")
+            } else {
             this.updateAttackMessage(2);
             setTimeout(function(){
                 that.gameMTPunchOut.showEnemies()
             },1000);
+            }
         }
     },
     setCharacterStats : function(character) {
@@ -203,7 +205,7 @@ var gameMTPunchOut = {
     checkAttackBtn : function(){
         if(!this.healthRemainingEval(this.characterName) || !this.healthRemainingEval(this.defenderName)){
             if(this.healthRemainingEval(this.defenderName)){
-                this.updateAttackMessage(5);
+                this.updateAttackMessage(4);
             } else {
                 this.clearMicroImage();
                 $("#jab").hide();
@@ -293,10 +295,11 @@ $(".playerCard").on("click", function(){
         that.gameMTPunchOut.moveCard(fullPlayerCard,"enemy"+that.gameMTPunchOut.enemiesCount)
         that.gameMTPunchOut.setEnemy(fullPlayerCard)
         that.gameMTPunchOut.printMessage("<h2>Select " + that.gameMTPunchOut.enemiesCount + " More Opponents</h2>", "setupMessages")
-        if (that.gameMTPunchOut.enemiesSelected && $("#actualGame:visible").length === 0 ){
+        if (that.gameMTPunchOut.enemiesSelected && $("#actualGame:visible").length === 0 && that.gameMTPunchOut.enemiesCount !== 3){
             $("#actualGame").show();
             $("#playerCards").hide();
             that.gameMTPunchOut.fightReady()
+            console.log("Here It Is")
         }
     }
     
