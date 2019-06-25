@@ -106,9 +106,8 @@ var gameMTPunchOut = {
     },
     characterJab : function (yourCharacter, theDefender){
         this.characters[theDefender].health = this.characters[theDefender].health - this.characters[yourCharacter].newAttack;
-        this.counterAttack(yourCharacter,theDefender);
-        this.updateHealth(yourCharacter,theDefender);
         this.doubleAttack(this.characterName);
+        this.updateHealth(yourCharacter,theDefender);
         if(!this.healthRemainingEval(yourCharacter)){
             this.updateAttackMessage(4);
         };
@@ -117,14 +116,14 @@ var gameMTPunchOut = {
         //temporarily store original Attack value
         var tempAttack = this.characters[yourCharacter].newAttack;
         this.characters[yourCharacter].newAttack = Math.trunc(this.characters[yourCharacter].newAttack + (this.characters[yourCharacter].newAttack / 2));
-        this.characters[theDefender].health = this.characters[theDefender].health - this.characters[yourCharacter].newAttack        
-        this.counterAttack(yourCharacter,theDefender);
-        this.updateHealth(yourCharacter,theDefender);
+        this.characters[theDefender].health = this.characters[theDefender].health - this.characters[yourCharacter].newAttack
         //reset's newAttack Power after using and displaying upperCut hit
         this.characters[yourCharacter].newAttack = tempAttack;
         this.characters[yourCharacter].newAttack = Math.trunc(this.characters[yourCharacter].newAttack / 2)
+        this.updateHealth(yourCharacter,theDefender);
         if(!this.healthRemainingEval(yourCharacter)){
             this.updateAttackMessage(4);
+            that.gameMTPunchOut.printMessage("<h2>Better Luck Next Time!</h2>", "CharacterMessage")
         };
     },
     defenderAttack: function (yourCharacter, theDefender){
@@ -137,17 +136,6 @@ var gameMTPunchOut = {
         if(this.healthRemainingEval(theDefender)){
             this.characters[yourCharacter].health = this.characters[yourCharacter].health - this.characters[theDefender].counterAttack;
             this.updateAttackMessage(1);
-        } else {
-            this.characters[theDefender].defeated = true;
-            if(this.enemiesCount === 3 ){
-                this.updateAttackMessage(5);
-                that.gameMTPunchOut.printMessage("<h2>Congratulations you have Won!</h2>", "CharacterMessage")
-            } else {
-            this.updateAttackMessage(2);
-            setTimeout(function(){
-                that.gameMTPunchOut.showEnemies()
-            },1000);
-            }
         }
     },
     setCharacterStats : function(character) {
@@ -207,12 +195,20 @@ var gameMTPunchOut = {
             if(this.healthRemainingEval(this.defenderName)){
                 this.updateAttackMessage(4);
             } else {
-                this.clearMicroImage();
-                $("#jab").hide();
-                $("#uppercut").hide();
+                if(this.enemiesCount !== 3){
+                    this.clearMicroImage();
+                    $("#jab").hide();
+                    $("#uppercut").hide();
+                    this.showEnemies();
+                } else {
+                    $("#jab").hide();
+                    $("#uppercut").hide();
+                    this.updateAttackMessage(5);
+                }
             }
         } else {
             if($("#jab:visible").length === 0 ){
+                that.gameMTPunchOut.printMessage("<h2>Select an Attack!</h2>", "CharacterMessage")
                 $("#jab").show();
             }
             if(this.characters[this.characterName].newAttack < 20){
@@ -231,13 +227,17 @@ var gameMTPunchOut = {
                 this.printMessage("<p>You Attacked for: " + this.characters[this.characterName].newAttack + "</p><p>Your opponent was defeated; Enemies will reload in a moment.</p>","AttackResultMsg");
                 break;
             case 3:
-                this.printMessage("<p>Your current Attack Power: " + this.characters[this.characterName].newAttack + "</p>","AttackResultMsg");
+                this.printMessage("","AttackResultMsg");
+                this.printMessage("<h5>The Enemies</h5>","EnemyMessage")
+                this.printMessage("<h5>Select a defender from \"the Enemies\" to start a fight:</h5>","CharacterMessage")
                 break;
             case 4:
                 this.printMessage("<p>Valiant Effort but \"the Enemies\" have defeated you.</p><p>Better Luck Next Time</p>","AttackResultMsg");
+                this.printMessage("<h2>Better Luck Next Time!</h2>", "CharacterMessage")
                 break;
             case 5:
                 this.printMessage("<p>Congratulations you have defeated all \"Enemies\" click the reset button to play again.</p>","AttackResultMsg");
+                this.printMessage("<h2>Congratulations you have Won!</h2>", "CharacterMessage")
                 break;
         };
     },
@@ -268,16 +268,13 @@ var gameMTPunchOut = {
                 $("#enemy"+i).show();
             }
         };
-        this.defenderSelected = false;
-        $("#theEnemies").show();
-        this.fightReady();
-        this.updateAttackMessage(3);
-        return true;
-    },
-    evalWin: function(){
-        
+        if(this.enemiesCount !== 3){
+            this.defenderSelected = false;
+            $("#theEnemies").show();
+            this.updateAttackMessage(3);
+            return true;
+        }
     }
-
 };
 $(document).ready(function() {
     $("#actualGame").hide();
@@ -299,7 +296,6 @@ $(".playerCard").on("click", function(){
             $("#actualGame").show();
             $("#playerCards").hide();
             that.gameMTPunchOut.fightReady()
-            console.log("Here It Is")
         }
     }
     
@@ -308,7 +304,6 @@ $(".enemyCard").on("click", function(){
     var fullEnemyCard = this;
     if(!that.gameMTPunchOut.defenderSelected){
         that.gameMTPunchOut.setDefender(fullEnemyCard);
-        that.gameMTPunchOut.printMessage("<h2>Select an Attack!</h2>", "CharacterMessage")
     }
     that.gameMTPunchOut.checkAttackBtn();
 });
@@ -316,8 +311,14 @@ $("#jab").on("click", function(){
     if(that.gameMTPunchOut.characterSelected && that.gameMTPunchOut.defenderSelected){
         if(that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.characterName) && that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.defenderName)){
                 that.gameMTPunchOut.characterJab(that.gameMTPunchOut.characterName, that.gameMTPunchOut.defenderName);
-        };
-        that.gameMTPunchOut.checkAttackBtn();
+        }
+        if(that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.defenderName)){
+            that.gameMTPunchOut.counterAttack(that.gameMTPunchOut.characterName, that.gameMTPunchOut.defenderName);
+            that.gameMTPunchOut.updateHealth(that.gameMTPunchOut.characterName,that.gameMTPunchOut.defenderName);
+            that.gameMTPunchOut.checkAttackBtn();
+        } else {
+            that.gameMTPunchOut.checkAttackBtn();
+        }
     }
 });
 $("#uppercut").on("click", function(){
@@ -325,7 +326,13 @@ $("#uppercut").on("click", function(){
         if(that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.characterName) && that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.defenderName)){
             that.gameMTPunchOut.characterUppercut(that.gameMTPunchOut.characterName, that.gameMTPunchOut.defenderName);
         };
-        that.gameMTPunchOut.checkAttackBtn();
+        if(that.gameMTPunchOut.healthRemainingEval(that.gameMTPunchOut.defenderName)){
+            that.gameMTPunchOut.counterAttack(that.gameMTPunchOut.characterName, that.gameMTPunchOut.defenderName);
+            that.gameMTPunchOut.updateHealth(that.gameMTPunchOut.characterName,that.gameMTPunchOut.defenderName);
+            that.gameMTPunchOut.checkAttackBtn();
+        } else {
+            that.gameMTPunchOut.checkAttackBtn();
+        }
     };
 });
 $("#reset").on("click", function(){
