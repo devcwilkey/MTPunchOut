@@ -3,6 +3,7 @@ MTPunchOut is a basic Javascript remake of Mike Tyson's Punch Out.  It is a sing
 
 ## Website:
 [MTPunchOut - Game](https://devcwilkey.github.io/MTPunchOut/)
+
 [MTPunchOut - GitHub](https://github.com/devcwilkey/MTPunchOut)
 
 ### How-To Play:
