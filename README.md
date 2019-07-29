@@ -1,10 +1,12 @@
 # MTPunchOUt
 MTPunchOut is a basic Javascript remake of Mike Tyson's Punch Out.  It is a single player multi-level boxing game that offers a few challenges as play through the first few times.
 
+
 ## Website:
 [MTPunchOut - Game](https://devcwilkey.github.io/MTPunchOut/)
 
 [MTPunchOut - GitHub](https://github.com/devcwilkey/MTPunchOut)
+
 
 ### How-To Play:
 Under the website links (above) click the Game link.
@@ -18,11 +20,14 @@ Under the website links (above) click the Game link.
       - When the Uppercut is used it will hit with 1.5 x the Current Attack Power but cut the Attack Power value to half of it's original.
 5. If you keep losing, consider saving your Uppercut until the last Defender.
 
+
 ### Technologies used:
 - HTML
 - CSS (Bootstrap)
 - Javascript
 
+
 ### Contributions:
 - Craig Wilkey [GitHub Profile](https://github.com/devcwilkey)
   - Primary Developer for Project
+  - Built during Full Stack Web Developer BootCamp
