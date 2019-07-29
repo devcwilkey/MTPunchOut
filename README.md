@@ -27,6 +27,12 @@ Under the website links (above) click the Game link.
 - Javascript
 
 
+### Things to Change or Fix
+- Find a better way to display the Select Character Boxes.
+- Work on Mobile Response.
+- Add Theme and Color to the Site.
+
+
 ### Contributions:
 - Craig Wilkey [GitHub Profile](https://github.com/devcwilkey)
   - Primary Developer for Project
