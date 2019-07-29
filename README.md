@@ -1,4 +1,4 @@
-# MTPunchOUt
+# MTPunchOut
 MTPunchOut is a basic Javascript remake of Mike Tyson's Punch Out.  It is a single player multi-level boxing game that offers a few challenges as play through the first few times.
 
 
